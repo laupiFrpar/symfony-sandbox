@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test Gedmo bundle{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col p-4">
+      <ul>
+        <li><a href="{{ path('gedmo_translatable_article') }}">Gedmo Translation Article</a></li>
+        <li><a href="{{ path('gedmo_translatable_category') }}">Gedmo Translation Category</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gedmo - Translatable{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col"><a href="{{ path('gedmo_translatable_article_new') }}" class="btn btn-primary" type="button"><i class="fas fa-plus"></i></a></th>
+        </tr>
+        {% for article in articles %}
+        <tr>
+          <th scope="row">{{ article.id }}</th>
+          <td>{{ article.title }}</td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Action buttons">
+              <a href="{{ path('gedmo_translatable_article_edit', {id: article.id}) }}" class="btn btn-primary" type="button"><i class="fas fa-edit"></i></a>
+              <a href="{{ path('gedmo_translatable_article_remove', {id: article.id}) }}" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

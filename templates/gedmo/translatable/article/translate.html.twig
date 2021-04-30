@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>New Article in {{ locale }}</h1>
+		{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<button class="btn btn-primary" type="submit">Save</button>
+			<a href="{{ path('gedmo_translatable_article_edit', {id: article.id}) }}" class="btn btn-danger" type="button">Cancel</a>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

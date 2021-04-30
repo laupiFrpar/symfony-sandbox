@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>New Category</h1>
+		<div class="row mb-3">
+			{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<button class="btn btn-primary" type="submit">Save</button>
+				<a href="{{ path('gedmo_translatable_category') }}" class="btn btn-danger" type="button">Cancel</a>
+			{{ form_end(form) }}
+		</div>
+		{% if category.translations|length > 0 %}
+		<div class="row">
+			<div class="col">
+				<p class="alert alert-warning">
+					<strong>Warning</strong> It is complicated to list a translation by locale because the
+					<code>category.translations</code> variable returns a translation list by category property instead of an
+					entity translation.
+				</p>
+				<table class="table">
+					<legend>Available translation</legend>
+					<tr>
+						<th scope="col">Locale</th>
+						<th scope="col">Title</th>
+						<th class="d-flex justify-content-end" scope="col">
+							{% if availableLocales|length > 0 %}
+							<form class="d-flex col-sm-4" action="{{ path('gedmo_translatable_category_translate_new', {id: category.id}) }}">
+								<select class="form-select me-2" aria-label="Locale selection" name="locale">
+									{% for locale,label in availableLocales %}
+									<option value="{{ locale }}">{{ label }}</option>
+									{% endfor %}
+								</select>
+								<button class="btn btn-outline-success" type="submit">Translate</button>
+							</form>
+							{% endif %}
+						</th>
+					</tr>
+
+					{% for translation in category.translations %}
+						{% if translation.locale != 'en_US' %}
+					<tr>
+						<th scope="col">{{ translation.locale }}</th>
+						<td scope="col">{#{ translation.name }#}</td>
+						<td class="d-flex justify-content-end" scope="col">
+							<div class="btn-group" role="group" aria-label="Action buttons">
+								<a href="{{ path('gedmo_translatable_category_translate_edit', {id: category.id, locale: translation.locale}) }}" class="btn btn-primary" type="button">
+									<i class="fas fa-edit"></i>
+								</a>
+								<a href="{{ path('gedmo_translatable_category_translate_remove', {id: category.id, locale: translation.locale}) }}" class="btn btn-danger" type="button">
+									<i class="fas fa-trash"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+						{% endif %}
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+{% endblock %}

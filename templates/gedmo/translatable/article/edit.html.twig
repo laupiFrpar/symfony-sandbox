@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>New Article</h1>
+		<div class="row mb-3">
+			{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<button class="btn btn-primary" type="submit">Save</button>
+				<a href="{{ path('gedmo_translatable_article') }}" class="btn btn-danger" type="button">Cancel</a>
+			{{ form_end(form) }}
+		</div>
+		{% if article.id is not null %}
+		<div class="row">
+			<div class="col">
+				<table class="table">
+					<legend>Available translation</legend>
+					<tr>
+						<th scope="col">Locale</th>
+						<th scope="col">Title</th>
+						<th class="d-flex justify-content-end" scope="col">
+							{% if availableLocales|length > 0 %}
+							<form class="d-flex col-sm-4" action="{{ path('gedmo_translatable_article_translate_new', {id: article.id}) }}">
+								<select class="form-select me-2" aria-label="Locale selection" name="locale">
+									{% for locale,label in availableLocales %}
+									<option value="{{ locale }}">{{ label }}</option>
+									{% endfor %}
+								</select>
+								<button class="btn btn-outline-success" type="submit">Translate</button>
+							</form>
+							{% endif %}
+						</th>
+					</tr>
+					{% for locale,translation in translations if locale != 'en_US' %}
+					<tr>
+						<th scope="col">{{ locale }}</th>
+						<td scope="col">{{ translation.title }}</td>
+						<td class="d-flex justify-content-end" scope="col">
+							<div class="btn-group" role="group" aria-label="Action buttons">
+								<a href="{{ path('gedmo_translatable_article_translate_edit', {id: article.id, locale: locale}) }}" class="btn btn-primary" type="button">
+									<i class="fas fa-edit"></i>
+								</a>
+								<a href="{{ path('gedmo_translatable_article_translate_remove', {id: article.id, locale: locale}) }}" class="btn btn-danger" type="button">
+									<i class="fas fa-trash"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+{% endblock %}
